@@ -15,6 +15,7 @@ function execute(commands) {
     try {
         var data = db.exec(commands.replace(/\n/g, '; '));
         print(JSON.stringify(data, null, '  '));
+        return data;
     }
     catch (e) {
         print(e);
@@ -103,7 +104,20 @@ zone.ondrop = function(event) {
                 db=SQL.open(x);
 				var q = "SELECT name FROM sqlite_master WHERE type='table';";
 				commands.innerText = q;
-                execute(q);
+                result = execute(q);
+                $('.tables').empty();
+                $.each(result, function (i, row) {
+                    $(".tables")
+                        .append(
+                            $("<li />").
+                                append($("<a />")
+                                        .attr("href", "#table_" + row[0].value)
+                                        .attr("data-toggle", "tab")
+                                        .text(row[0].value)
+                            )
+                    )
+                });
+                //<li><a href="#settings" data-toggle="tab">Settings</a></li>
             });
             dragOut(zone);
             return false;
