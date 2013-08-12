@@ -1,0 +1,21 @@
+#output {
+    font-family: Courier New, Courier, monospace;
+    height: 300px;
+    overflow: scroll;
+    border: 1px black solid;
+}
+#dbDrag {
+    display: none;
+}
+.dragOut {
+    border: 2px dashed gray;
+}
+.dragEnter {
+    border: 2px solid yellow;
+}
+.error {
+    border: 2px solid red;
+}
+.success {
+    border: 2px solid green;
+}
