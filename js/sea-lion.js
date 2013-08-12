@@ -12,13 +12,14 @@ var db = SQL.open();
 
 // Run a command in the database
 function execute(commands) {
+    console.debug(commands);
     try {
         var data = db.exec(commands.replace(/\n/g, '; '));
         print(JSON.stringify(data, null, '  '));
         return data;
     }
     catch (e) {
-        print(e);
+        console.error(e);
     }
 }
 
@@ -96,6 +97,40 @@ function dragOut(z) {
     z.classList.add('dragOut');
 }
 
+function showTable(e) {
+    var $el = $(this),
+    $table = $(".table-container"),
+    table = $el.data("table"),
+    q = "SELECT * FROM " + table  + " LIMIT 10;";
+
+    $table.empty();
+    result = execute(q);
+    $.each(result, function (i, row) {
+        var $tr = $("<tr />"),
+            $thead_tr = $("<tr />"),
+            $tbody = $("<tbody />"),
+            $thead = $("<thead />");
+        if (i==0) {
+            $.each(row, function (k, header) {
+                $thead.append(
+                    $thead_tr.append(
+                        $("<th />") .text(header.column)
+                    )
+                );
+            });
+            $table.append($thead);
+        }
+        $table.append($tbody);
+        $.each(row, function (j, cell) {
+            $tbody.append(
+                $tr.append(
+                    $("<td />") .text(cell.value)
+                )
+            );
+        });
+    });
+}
+
 zone.ondragenter = function(){ dragIn(zone); return false; };
 zone.ondragover = function(){ dragIn(zone); return false; };
 zone.ondragleave = function(){ dragOut(zone); return false; };
@@ -103,7 +138,6 @@ zone.ondrop = function(event) {
             makeTheDrop(event,function(x){
                 db=SQL.open(x);
 				var q = "SELECT name FROM sqlite_master WHERE type='table';";
-				commands.innerText = q;
                 result = execute(q);
                 $('.tables').empty();
                 $.each(result, function (i, row) {
@@ -112,12 +146,13 @@ zone.ondrop = function(event) {
                             $("<li />").
                                 append($("<a />")
                                         .attr("href", "#table_" + row[0].value)
+                                        .attr("data-table", row[0].value)
                                         .attr("data-toggle", "tab")
                                         .text(row[0].value)
+                                        .on('click', showTable)
                             )
                     )
                 });
-                //<li><a href="#settings" data-toggle="tab">Settings</a></li>
             });
             dragOut(zone);
             return false;
