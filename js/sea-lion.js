@@ -56,21 +56,26 @@ function grabDB(cb) {
         var file = event.dataTransfer.files[0];
         zone.classList.remove('error');
         zone.classList.remove('success');
-        dropStatus.innerText = 'Loading filename:'+file.name+' size:'+file.size+' ... ';
         var reader = new FileReader();
         reader.onload = function(e) {
             // run callback passing in the file TEXT
             try {
                 cb(e.target.result);
                 zone.classList.add('success');
-                dropStatus.innerText += '[success reading file filename:'+file.name+' size:'+file.size+']';
+                $(dropStatus)
+                    .addClass('alert-success')
+                    .removeClass('hidden');
+                dropStatus.innerText = 'Success! Opened file '+file.name+', size:'+file.size;
             } catch (err) {
                 zone.classList.add('error');
             }
 
         };
         reader.onerror = function() {
-            dropStatus.innerText += '[error reading file filename:'+file.name+' size:'+file.size+']';
+            $(dropStatus)
+                .addClass('alert-error')
+                .removeClass('hidden');
+            dropStatus.innerText = 'Error! Unable to open file '+file.name+' size:'+file.size;
         };
         reader.readAsBinaryString(file);
         return false;
