@@ -80,6 +80,15 @@
                 <span id="zone">
                     <a class="btn btn-primary btn-large">Drop Database here</a>
                 </span>
+
+                <div class="pull-right">
+                    <a class="btn btn-primary btn-large" id="dbLink">Download database</a>
+                    <div class="row">
+                        <div class="span1" style="padding-top:10px">
+                            <a class="btn btn-small new-row" id="dbDrag" style="cursor: move;" data-toggle="tooltip" data-placement="right" title="Drag to this your desktop to download"><i class="icon-file"></i> test.sqlite</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <ul class="tables nav nav-tabs">
@@ -117,12 +126,6 @@
                     <br />
                     <button id="sqlButt">Execute</button>
                     <pre><div id="output"></div></pre>
-                    <h3>
-                        <a href="javascript:" id="dbLink">click to prepare DB for export</a>
-                    </h3>
-                    <h3>
-                        <a href="javascript:" id="dbDrag">drag to download DB</a>
-                    </h3>
                 </div>
             </div>
 

@@ -216,3 +216,5 @@ $(".row-save").on("click", function () {
     result = execute(q);
     $(".nav-tabs .active a").triggerHandler("click");
 });
+
+$("[data-toggle=tooltip]").tooltip();
