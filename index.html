@@ -88,6 +88,24 @@
             <table class="table table-hover table-striped table-container">
             </table>
 
+            <a class="btn btn-small new-row hidden" data-toggle="modal" href="#id_new-row-modal"><i class="icon-plus-sign"></i> New row</a>
+
+            <!-- Modal -->
+            <div id="id_new-row-modal" class="modal hide fade" tabindex="-1" role="dialog">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3>New Row</h3>
+                </div>
+                <div class="modal-body">
+                    <form class="new-row-form form-horizontal">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                    <button class="row-save btn btn-primary" data-dismiss="modal">Save</button>
+                </div>
+            </div>
+
             <div class="row hidden">
                 <div class="span4">
                     <textarea rows="10" cols="80" id="commands">

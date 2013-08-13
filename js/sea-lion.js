@@ -103,6 +103,7 @@ function showTable(e) {
     table = $el.data("table"),
     q = "SELECT * FROM " + table  + " LIMIT 10;";
 
+    $(".new-row").removeClass("hidden");
     $table.empty();
     result = execute(q);
     $.each(result, function (i, row) {
@@ -176,3 +177,42 @@ dbDrag.ondragstart = function(event) {
 dbDrag.ondragend = function(event) {
     dbDrag.style.display='none';
 };
+
+$("#id_new-row-modal").on("show", function () {
+    var table = $(".nav-tabs .active a").data("table");
+    result = execute("pragma table_info('" + table + "');");
+    $(".new-row-form").empty();
+    $.each(result, function (i, col) {
+        // pk check
+        if (col[5].value === "0") {
+            $(".new-row-form")
+                .data("table", table)
+                .append(
+                    $("<div />")
+                        .addClass("control-group")
+                        .append($("<label />")
+                                    .addClass("control-label")
+                                    .attr("for", "id_" + col[1].value)
+                                    .text(col[1].value)
+                        )
+                        .append($("<div />")
+                                    .addClass("controls")
+                                    .append($("<input />")
+                                                .data("col", col[1].value)
+                                                .attr("type", "text")
+                                                .attr("id", "id_" + col[1].value)
+                                    )
+                    )
+                )
+        }
+    });
+});
+
+$(".row-save").on("click", function () {
+    var table = $(".new-row-form").data("table"),
+        props = $(".new-row-form input").map(function () { return $(this).data("col"); }).toArray(),
+        vals = $(".new-row-form input").map(function () { return $(this).val(); }).toArray();
+        q = "INSERT INTO `" + table + "` (" + props.join(", ") + ")" + " VALUES ('" + vals.join("', '") + "')";
+    result = execute(q);
+    $(".nav-tabs .active a").triggerHandler("click");
+});
