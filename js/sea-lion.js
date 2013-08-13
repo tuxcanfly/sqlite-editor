@@ -63,7 +63,6 @@ function grabDB(cb) {
             // run callback passing in the file TEXT
             try {
                 cb(e.target.result);
-                zone.classList.add('success');
                 $(dropStatus)
                     .addClass('alert-success')
                     .removeClass('hidden');
@@ -87,14 +86,12 @@ function dragIn(z){
     ['dragOut','error','success'].forEach(function(e){
         z.classList.remove(e);
     });
-    z.classList.add('dragEnter');
 }
 
 function dragOut(z) {
     ['dragEnter','error','success'].forEach(function(e){
         z.classList.remove(e);
     });
-    z.classList.add('dragOut');
 }
 
 function showTable(e) {
